@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UI/UX Testing & Design Validation — Ashish Rajpurohit</title>
+  <link rel="icon" type="image/png" href="favicon-256.png" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #FFFFFF;
+      --bg2: #FFFFFF;
+      --bg3: #F0F9FF;
+      --accent: #015FAE;
+      --accent-hover: #1278c4;
+      --accent2: #015FAE;
+      --text: #000000;
+      --muted: #333333;
+      --border: #b3d9f5;
+      --card: rgba(22,141,226,0.08);
+      --font-head: 'Montserrat', sans-serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; font-weight: 600; color: #015FAE; }
+    body { font-family: 'Montserrat', sans-serif; font-weight: 400; color: #000000; background-color: #FFFFFF; }
+    .nav-links a, .nav-cta, .nav-logo { font-family: 'Montserrat', sans-serif; font-weight: 500; color: #015FAE; }
+    button, .btn, .btn-primary, .btn-outline { font-family: 'Montserrat', sans-serif; font-weight: 500; }
+    i.fa-solid, i.fa-brands, i.fa-regular, .fas, .fab, .far { color: #015FAE; }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    section, nav, footer { max-width: 100%; overflow: hidden; }
+    img, svg { max-width: 100%; height: auto; }
+    html { scroll-behavior: smooth; }
+
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.7; overflow-x: hidden; width: 100%; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #FFFFFF; }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+    /* ── NAV (identical to main site) ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10000; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 6%; background: rgba(255,255,255,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); transition: padding .3s; }
+    .nav-logo { font-family: var(--font-head); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: #000000; text-decoration: none; cursor: pointer; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.3px; transition: color .2s, border-color .2s; border-bottom: 2px solid transparent; padding-bottom: 2px; display: inline-block; }
+    .nav-links a:hover { color: #015FAE; border-bottom: 2px solid #015FAE; }
+    .nav-cta { background: var(--accent); color: #FFFFFF !important; padding: .45rem 1.1rem; border-radius: 6px; font-weight: 700 !important; font-size: 0.8rem !important; letter-spacing: 0.5px; transition: opacity .2s !important; }
+    .nav-cta:hover { opacity: .85; color: #0A192F !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+    @keyframes countPop { from { opacity:0; transform:scale(.8); } to { opacity:1; transform:scale(1); } }
+
+    /* ── SECTIONS (identical to main site) ── */
+    section { padding: 120px 6%; }
+    section > * { max-width: 100%; }
+    .section-inner { width: 100%; max-width: 1200px; margin: 0 auto; }
+    .section-label { display: inline-flex; align-items: center; gap: .5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .section-label::before { content: ''; width: 28px; height: 2px; background: var(--accent); border-radius: 2px; }
+    h2.section-title { font-family: var(--font-head); font-size: clamp(1.5rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 1rem; word-break: break-word; color: var(--text); }
+    h2.section-title .title-accent { color: var(--accent); }
+    .section-sub { color: var(--muted); font-size: 1rem; max-width: 620px; margin-bottom: 3.5rem; }
+
+    /* ── CENTER ALIGNMENT (all sections) ── */
+    section { text-align: center; }
+    .section-label, .section-sub, .overview-text, .final-result-box { margin-left: auto; margin-right: auto; }
+
+    /* ── HERO ── */
+    #project-hero { min-height: 70vh; display: flex; align-items: center; padding: 9rem 6% 4rem; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(22,141,226,0.07) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 20% 70%, rgba(22,141,226,0.06) 0%, transparent 60%); }
+    .hero-grid-bg { position: absolute; inset: 0; z-index: 0; opacity: 0.03; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; }
+    .phero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr .9fr; gap: 4rem; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; justify-items: center; text-align: center; }
+    .hero-tag { display: inline-flex; align-items: center; gap: .5rem; background: rgba(37,99,235,.1); border: 1px solid rgba(37,99,235,.25); color: var(--accent); font-size: 0.78rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: .35rem .9rem; border-radius: 100px; margin-bottom: 1.5rem; animation: fadeUp .6s ease both; }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    .phero-title { font-family: var(--font-head); font-size: clamp(1.8rem, 3.6vw, 3rem); font-weight: 800; line-height: 1.15; letter-spacing: -1px; margin-bottom: 1.2rem; animation: fadeUp .6s .1s ease both; word-break: break-word; }
+    .phero-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.85; max-width: 560px; margin-bottom: 1.8rem; animation: fadeUp .6s .2s ease both; }
+    .phero-tags { display: flex; flex-wrap: wrap; gap: .5rem; animation: fadeUp .6s .3s ease both; justify-content: center; }
+    .phero-visual { display: flex; align-items: center; justify-content: center; animation: fadeUp .6s .2s ease both; }
+    .phero-illustration { width: 100%; aspect-ratio: 4/3; border-radius: 18px; background: linear-gradient(160deg, #e6f4fc 0%, #b3d9f5 100%); border: 1px solid var(--border); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .phero-illustration::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 55%, #FFFFFF); }
+    .phero-icons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; position: relative; z-index: 1; }
+    .phero-icons i { font-size: 1.9rem; color: var(--accent); opacity: .55; }
+
+    /* ── TAG PILLS ── */
+    .highlight-tag { background: rgba(37,99,235,.08); border: 1px solid rgba(37,99,235,.2); color: var(--accent); font-size: 0.78rem; font-weight: 600; padding: .3rem .8rem; border-radius: 100px; }
+
+    /* ── OVERVIEW ── */
+    #overview { background: #FFFFFF; }
+    .overview-text { max-width: 900px; }
+    .overview-text p { color: var(--muted); font-size: 0.98rem; line-height: 1.9; margin-bottom: 1.2rem; }
+
+    /* ── GENERIC CARD GRIDS (responsibilities / testing types / challenges / solutions) ── */
+    .pcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 1.25rem; justify-content: center; }
+    .pcard { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; display: flex; align-items: center; justify-content: center; gap: .9rem; transition: border-color .2s, transform .2s; }
+    .pcard:hover { border-color: rgba(37,99,235,.35); transform: translateY(-3px); }
+    .pcard-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(37,99,235,.1); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0; }
+    .pcard span { font-family: var(--font-head); font-weight: 600; font-size: 0.92rem; color: var(--text); }
+
+    /* ── TOOLS ── */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); gap: 1.25rem; justify-content: center; }
+    .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.6rem 1.2rem; text-align: center; transition: border-color .2s, transform .2s; }
+    .tool-card:hover { border-color: rgba(37,99,235,.35); transform: translateY(-3px); }
+    .tool-card i { font-size: 1.7rem; color: var(--accent); margin-bottom: .8rem; display: block; }
+    .tool-card span { font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; }
+
+    /* ── WORKFLOW TIMELINE (horizontal) ── */
+    .workflow-scroll { overflow-x: auto; padding-bottom: 1rem; margin: 0 -6%; padding-left: 6%; padding-right: 6%; }
+    .workflow-track { display: flex; gap: 1.2rem; min-width: max-content; position: relative; justify-content: center; margin: 0 auto; }
+    .workflow-step { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.4rem; width: 190px; flex-shrink: 0; position: relative; transition: border-color .2s, transform .2s; }
+    .workflow-step:hover { border-color: rgba(37,99,235,.4); transform: translateY(-3px); }
+    .workflow-num { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #FFFFFF; font-family: var(--font-head); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; margin-bottom: .8rem; }
+    .workflow-step p { font-family: var(--font-head); font-weight: 600; font-size: 0.85rem; color: var(--text); }
+
+    /* ── ACHIEVEMENTS (stat cards) ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); gap: 1.25rem; justify-content: center; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem 1.4rem; text-align: center; transition: border-color .2s, transform .2s; }
+    .stat-card:hover { border-color: rgba(37,99,235,.4); transform: translateY(-3px); }
+    .stat-card .pstat-num { font-family: var(--font-head); font-weight: 800; font-size: 2rem; color: var(--accent); animation: countPop .5s ease both; }
+    .stat-card .pstat-label { font-size: 0.82rem; color: var(--muted); margin-top: .4rem; }
+
+    /* ── GALLERY ── */
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); gap: 1.25rem; justify-content: center; }
+    .gallery-item { position: relative; aspect-ratio: 4/3; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: linear-gradient(135deg, #e6f4fc 0%, #b3d9f5 100%); display: flex; align-items: center; justify-content: center; transition: transform .3s, box-shadow .3s; cursor: pointer; }
+    .gallery-item:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 30px rgba(1,95,174,.18); }
+    .gallery-item i { font-size: 1.8rem; color: var(--accent); opacity: .4; }
+    .gallery-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(1,95,174,.85), transparent); color: #FFFFFF; font-size: 0.8rem; font-weight: 600; padding: 1.6rem .9rem .7rem; }
+
+    /* ── SKILLS USED (badges) ── */
+    .skills-badges { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
+
+    /* ── FINAL RESULT ── */
+    .final-result-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem 2.2rem; max-width: 900px; }
+    .final-result-box p { color: var(--muted); font-size: 0.98rem; line-height: 1.9; }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav { display: flex; align-items: center; justify-content: center; gap: 1.5rem; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 1rem; }
+    .bnav-link { display: inline-flex; align-items: center; gap: .5rem; color: var(--accent); font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: gap .2s; }
+    .bnav-link:hover { gap: .8rem; }
+    .bnav-center { color: var(--muted); font-size: 0.85rem; text-decoration: none; border: 1px solid var(--border); padding: .5rem 1.1rem; border-radius: 100px; transition: border-color .2s, color .2s; }
+    .bnav-center:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer { background: #015FAE; padding: 2.5rem 6%; border-top: 1px solid rgba(255,255,255,0.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    .footer-left { font-size: 0.85rem; color: rgba(255,255,255,0.85); }
+    .footer-left strong { color: #FFFFFF; font-weight: 700; }
+    .footer-right { display: flex; gap: 1rem; }
+    .footer-right a { color: rgba(255,255,255,0.8); font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: color .2s, border-color .2s; border-bottom: 2px solid transparent; padding-bottom: 2px; display: inline-block; }
+    .footer-right a:hover { color: #FFFFFF; border-bottom: 2px solid #FFFFFF; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .phero-inner { grid-template-columns: 1fr; text-align: center; }
+      .phero-visual { order: -1; max-width: 420px; margin: 0 auto; }
+      .phero-desc { margin: 0 auto 1.8rem; }
+      .phero-tags { justify-content: center; }
+    }
+    @media (max-width: 1024px) {
+      .nav-links { display: flex !important; gap: 1.2rem; }
+      .nav-links a { font-size: 0.8rem; }
+      .hamburger { display: none !important; }
+      section { padding: 100px 6%; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: flex !important; gap: .8rem; }
+      .nav-links a { font-size: 0.72rem; }
+      .nav-cta { padding: .4rem .8rem !important; font-size: 0.7rem !important; }
+      nav { padding: 1rem 5%; }
+      section { padding: 80px 5%; }
+    }
+    @media (max-width: 650px) {
+      nav { padding: 1rem 5%; }
+      section { padding: 80px 5%; }
+      #project-hero { padding: 7.5rem 5% 3.5rem; }
+      .nav-links {
+        display: none; position: fixed; top: 64px; left: 0;
+        width: 100%; height: calc(100vh - 64px);
+        background: #015FAE; flex-direction: column;
+        align-items: center; justify-content: center; gap: 0;
+        z-index: 9999; overflow-y: auto; padding: 1rem 0;
+        list-style: none; margin: 0;
+      }
+      .nav-links.open { display: flex !important; }
+      .nav-links li { width: 100%; }
+      .nav-links.open a {
+        font-size: 1.2rem !important; font-weight: 600 !important; color: #FFFFFF !important;
+        padding: 1.2rem 2.5rem !important; width: 100% !important; text-align: center !important;
+        display: block !important; border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+        transition: background .2s; letter-spacing: 0.5px; background: transparent !important;
+      }
+      .nav-links.open li { width: 100% !important; display: block !important; }
+      .nav-links.open a:hover { background: rgba(255,255,255,0.15) !important; color: #FFFFFF !important; }
+      .nav-links.open li:last-child a { border-bottom: none !important; }
+      .nav-links.open .nav-cta {
+        background: #FFFFFF !important; color: #015FAE !important; border-radius: 8px !important;
+        margin: 1rem 2rem 0 !important; padding: .8rem 1rem !important; width: calc(100% - 4rem) !important;
+        display: block !important; text-align: center !important; border-bottom: none !important; font-weight: 700 !important;
+      }
+      .nav-links.open .nav-cta:hover { background: #f0f8ff !important; color: #015FAE !important; }
+      .hamburger { display: flex; z-index: 10001; position: relative; }
+      .hamburger span { background: #015FAE; }
+      .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+      .hamburger.open span:nth-child(2) { opacity: 0; }
+      .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+      .section-title { font-size: 1.5rem; }
+      .bottom-nav { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-logo"><span style="color:#000000 !important;">A</span><span style="color:#015FAE !important;">R.</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="AshishRajpurohit_QACV.pdf" download class="nav-cta"><i class="fa fa-download"></i> Resume</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="project-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="phero-inner">
+    <div>
+      <div class="hero-tag">UI/UX Testing</div>
+      <h1 class="phero-title">UI/UX Testing &amp; Design Validation</h1>
+      <p class="phero-desc">Conducted comprehensive UI and UX testing for responsive web applications by validating layouts, typography, spacing, colors, icons, buttons, forms, and user interactions against Figma and Adobe XD designs. Performed responsive testing, cross-browser compatibility testing, accessibility validation, usability testing, and regression testing to deliver a seamless, pixel-perfect user experience.</p>
+      <div class="phero-tags">
+        <span class="highlight-tag">UI Testing</span>
+        <span class="highlight-tag">UX Testing</span>
+        <span class="highlight-tag">Figma</span>
+        <span class="highlight-tag">Adobe XD</span>
+        <span class="highlight-tag">Responsive Testing</span>
+        <span class="highlight-tag">Cross Browser</span>
+        <span class="highlight-tag">Accessibility</span>
+        <span class="highlight-tag">Usability Testing</span>
+      </div>
+    </div>
+    <div class="phero-visual">
+      <div class="phero-illustration">
+        <div class="phero-icons">
+          <i class="fa-solid fa-laptop"></i>
+          <i class="fa-solid fa-mobile-screen"></i>
+          <i class="fa-brands fa-figma"></i>
+          <i class="fa-solid fa-vector-square"></i>
+          <i class="fa-solid fa-list-check"></i>
+          <i class="fa-solid fa-swatchbook"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-label">Project Overview</div>
+  <h2 class="section-title">The <span class="title-accent">Objective</span></h2>
+  <div class="overview-text">
+    <p>This project showcases my experience in validating responsive web applications from both UI and UX perspectives.</p>
+    <p>The objective was to ensure every screen matched the approved Figma and Adobe XD designs while delivering a consistent experience across different browsers, operating systems, and devices.</p>
+    <p>The project included validating typography, spacing, colors, icons, layouts, responsiveness, accessibility, navigation, and usability while collaborating with developers to report defects, verify fixes, and ensure production-ready quality.</p>
+  </div>
+</section>
+
+<!-- RESPONSIBILITIES -->
+<section id="responsibilities" style="background:#F0F9FF;">
+  <div class="section-label">My Role</div>
+  <h2 class="section-title">My <span class="title-accent">Responsibilities</span></h2>
+  <p class="section-sub">The core testing activities I owned throughout the project lifecycle.</p>
+  <div class="pcard-grid">
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-crop-simple"></i></div><span>Pixel Perfect UI Validation</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-brands fa-figma"></i></div><span>Figma Design Verification</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-vector-square"></i></div><span>Adobe XD Design Verification</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-font"></i></div><span>Typography Validation</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-palette"></i></div><span>Color Validation</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-table-cells"></i></div><span>Layout Verification</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-icons"></i></div><span>Icon Validation</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-hand-pointer"></i></div><span>Button Validation</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-list-ul"></i></div><span>Form Validation</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-compass"></i></div><span>Navigation Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-mobile-screen-button"></i></div><span>Responsive Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-globe"></i></div><span>Cross Browser Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-universal-access"></i></div><span>Accessibility Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-user-check"></i></div><span>Usability Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-eye"></i></div><span>Visual Regression Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-bug"></i></div><span>UI Bug Reporting</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-rotate"></i></div><span>Regression Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-circle-check"></i></div><span>Final QA Verification</span></div>
+  </div>
+</section>
+
+<!-- TESTING TYPES -->
+<section id="testing-types">
+  <div class="section-label">Coverage</div>
+  <h2 class="section-title">Testing <span class="title-accent">Types</span></h2>
+  <p class="section-sub">A well-rounded testing approach covering every angle of the user experience.</p>
+  <div class="pcard-grid">
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-pen-ruler"></i></div><span>UI Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-face-smile"></i></div><span>UX Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-gears"></i></div><span>Functional Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-mobile-screen-button"></i></div><span>Responsive Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-globe"></i></div><span>Cross Browser Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-universal-access"></i></div><span>Accessibility Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-user-check"></i></div><span>Usability Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-rotate"></i></div><span>Regression Testing</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-eye"></i></div><span>Visual Testing</span></div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools" style="background:#F0F9FF;">
+  <div class="section-label">Toolset</div>
+  <h2 class="section-title">Tools &amp; <span class="title-accent">Technologies</span></h2>
+  <p class="section-sub">The design and testing tools used to validate this project.</p>
+  <div class="tools-grid">
+    <div class="tool-card"><i class="fa-brands fa-figma"></i><span>Figma</span></div>
+    <div class="tool-card"><i class="fa-solid fa-vector-square"></i><span>Adobe XD</span></div>
+    <div class="tool-card"><i class="fa-brands fa-jira"></i><span>Jira</span></div>
+    <div class="tool-card"><i class="fa-brands fa-chrome"></i><span>Chrome DevTools</span></div>
+    <div class="tool-card"><i class="fa-solid fa-desktop"></i><span>BrowserStack</span></div>
+    <div class="tool-card"><i class="fa-brands fa-chrome"></i><span>Google Chrome</span></div>
+    <div class="tool-card"><i class="fa-brands fa-edge"></i><span>Microsoft Edge</span></div>
+    <div class="tool-card"><i class="fa-brands fa-firefox-browser"></i><span>Mozilla Firefox</span></div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section id="workflow">
+  <div class="section-label">Process</div>
+  <h2 class="section-title">Testing <span class="title-accent">Workflow</span></h2>
+  <p class="section-sub">The end-to-end process followed from requirement analysis to final sign-off.</p>
+  <div class="workflow-scroll">
+    <div class="workflow-track">
+      <div class="workflow-step"><div class="workflow-num">1</div><p>Requirement Analysis</p></div>
+      <div class="workflow-step"><div class="workflow-num">2</div><p>UI Design Review</p></div>
+      <div class="workflow-step"><div class="workflow-num">3</div><p>Figma Validation</p></div>
+      <div class="workflow-step"><div class="workflow-num">4</div><p>Adobe XD Validation</p></div>
+      <div class="workflow-step"><div class="workflow-num">5</div><p>Test Case Preparation</p></div>
+      <div class="workflow-step"><div class="workflow-num">6</div><p>UI Testing</p></div>
+      <div class="workflow-step"><div class="workflow-num">7</div><p>Responsive Testing</p></div>
+      <div class="workflow-step"><div class="workflow-num">8</div><p>Cross Browser Testing</p></div>
+      <div class="workflow-step"><div class="workflow-num">9</div><p>Accessibility Testing</p></div>
+      <div class="workflow-step"><div class="workflow-num">10</div><p>Bug Reporting</p></div>
+      <div class="workflow-step"><div class="workflow-num">11</div><p>Developer Fix Verification</p></div>
+      <div class="workflow-step"><div class="workflow-num">12</div><p>Regression Testing</p></div>
+      <div class="workflow-step"><div class="workflow-num">13</div><p>Final QA Sign-Off</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHALLENGES -->
+<section id="challenges" style="background:#F0F9FF;">
+  <div class="section-label">Roadblocks</div>
+  <h2 class="section-title">Challenges <span class="title-accent">Faced</span></h2>
+  <div class="pcard-grid">
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><span>Responsive Layout Issues</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-align-left"></i></div><span>UI Alignment Problems</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-font"></i></div><span>Typography Differences</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-droplet"></i></div><span>Color Mismatch</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-globe"></i></div><span>Browser Compatibility</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-mobile-screen"></i></div><span>Mobile Layout Issues</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-universal-access"></i></div><span>Accessibility Improvements</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-layer-group"></i></div><span>Design Consistency</span></div>
+  </div>
+</section>
+
+<!-- SOLUTIONS -->
+<section id="solutions">
+  <div class="section-label">Outcomes</div>
+  <h2 class="section-title">Solutions <span class="title-accent">Delivered</span></h2>
+  <div class="pcard-grid">
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-ruler-combined"></i></div><span>Fixed spacing inconsistencies</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-mobile-screen-button"></i></div><span>Improved responsive layouts</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-font"></i></div><span>Verified typography</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-palette"></i></div><span>Validated color consistency</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-globe"></i></div><span>Improved browser compatibility</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-universal-access"></i></div><span>Enhanced accessibility</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-bug-slash"></i></div><span>Reduced UI defects</span></div>
+    <div class="pcard"><div class="pcard-icon"><i class="fa-solid fa-face-smile"></i></div><span>Improved user experience</span></div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements" style="background:#F0F9FF;">
+  <div class="section-label">Impact</div>
+  <h2 class="section-title">Key <span class="title-accent">Achievements</span></h2>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="pstat-num">150+</div><div class="pstat-label">UI Bugs Identified</div></div>
+    <div class="stat-card"><div class="pstat-num">50+</div><div class="pstat-label">Responsive Screens Tested</div></div>
+    <div class="stat-card"><div class="pstat-num">100%</div><div class="pstat-label">Pixel Perfect Validation</div></div>
+    <div class="stat-card"><div class="pstat-num">8+</div><div class="pstat-label">Cross Browser Compatibility</div></div>
+    <div class="stat-card"><div class="pstat-num">↑</div><div class="pstat-label">Improved User Experience</div></div>
+    <div class="stat-card"><div class="pstat-num">⚡</div><div class="pstat-label">Faster QA Delivery</div></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-label">Snapshots</div>
+  <h2 class="section-title">Project <span class="title-accent">Gallery</span></h2>
+  <p class="section-sub">A visual walkthrough of the design references and validated screens.</p>
+  <div class="gallery-grid">
+    <div class="gallery-item"><i class="fa-brands fa-figma"></i><span class="gallery-label">Figma Design</span></div>
+    <div class="gallery-item"><i class="fa-solid fa-vector-square"></i><span class="gallery-label">Adobe XD Design</span></div>
+    <div class="gallery-item"><i class="fa-solid fa-desktop"></i><span class="gallery-label">Desktop UI</span></div>
+    <div class="gallery-item"><i class="fa-solid fa-tablet-screen-button"></i><span class="gallery-label">Tablet UI</span></div>
+    <div class="gallery-item"><i class="fa-solid fa-mobile-screen"></i><span class="gallery-label">Mobile UI</span></div>
+    <div class="gallery-item"><i class="fa-solid fa-bug"></i><span class="gallery-label">Before Bug Fix</span></div>
+    <div class="gallery-item"><i class="fa-solid fa-circle-check"></i><span class="gallery-label">After Bug Fix</span></div>
+  </div>
+</section>
+
+<!-- SKILLS USED -->
+<section id="skills-used" style="background:#F0F9FF;">
+  <div class="section-label">Expertise</div>
+  <h2 class="section-title">Skills <span class="title-accent">Used</span></h2>
+  <div class="skills-badges">
+    <span class="highlight-tag">UI Testing</span>
+    <span class="highlight-tag">UX Testing</span>
+    <span class="highlight-tag">Manual Testing</span>
+    <span class="highlight-tag">Responsive Testing</span>
+    <span class="highlight-tag">Cross Browser Testing</span>
+    <span class="highlight-tag">Figma</span>
+    <span class="highlight-tag">Adobe XD</span>
+    <span class="highlight-tag">Accessibility</span>
+    <span class="highlight-tag">Usability Testing</span>
+    <span class="highlight-tag">Regression Testing</span>
+    <span class="highlight-tag">Bug Reporting</span>
+  </div>
+</section>
+
+<!-- FINAL RESULT -->
+<section id="final-result">
+  <div class="section-label">Summary</div>
+  <h2 class="section-title">Final <span class="title-accent">Result</span></h2>
+  <div class="final-result-box">
+    <p>Successfully validated responsive web applications against Figma and Adobe XD designs, ensuring pixel-perfect implementation, responsive behavior, accessibility compliance, cross-browser compatibility, and an excellent user experience while minimizing UI defects before production deployment.</p>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html#projects" class="bnav-link"><i class="fa-solid fa-arrow-left"></i> Previous Project</a>
+    <a href="index.html#projects" class="bnav-center">Back to Projects</a>
+    <a href="index.html#projects" class="bnav-link">Next Project <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    © 2024 <strong>Ashish Rajpurohit</strong> · Built with passion &amp; precision
+  </div>
+  <div class="footer-right">
+    <a href="index.html#hero">Top</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    var navLinks = document.getElementById('navLinks');
+    var ham = document.getElementById('hamburger');
+    navLinks.classList.toggle('open');
+    ham.classList.toggle('open');
+    var isOpen = navLinks.classList.contains('open');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.pcard, .tool-card, .stat-card, .gallery-item, .workflow-step').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
